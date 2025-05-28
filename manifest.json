@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "WebLocker",
+  "version": "1.0",
+  "description": "Protect whatever URL you want with an authentication lock to keep your private information secure.",
+  "icons": {
+    "48": "icons/network-lock-48.png"
+  },
+  "action": {
+    "default_icon": "icons/network-lock-32.png",
+    "default_title": "WebLocker"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.mozilla.org/*"],
+      "js": ["content_scripts/webLocker.js"],
+      "css": ["content_scripts/webLocker.css"],
+      "run_at": "document_start"
+    }
+  ]
+}
