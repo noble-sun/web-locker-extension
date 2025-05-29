@@ -1,7 +1,4 @@
 (() => {
-  // Set fixed password for now
-  const password = "123"
-
   /*
    * The page might flicker when hidding the content. To minimize this as much as
    * possible, on manifest.json the content script is being injected at run_at: document_start,
@@ -49,6 +46,11 @@
     const input = modal.querySelector('.weblocker-extension-input')
     const button = modal.querySelector('.weblocker-extension-button')
     const message = modal.querySelector('.weblocker-extension-message')
+
+    let password
+    browser.storage.local.get("password").then((result) => {
+      password = result.password
+    })
 
     // Check password on button click and replace the body tags again if correct
     button.addEventListener('click', () => {
