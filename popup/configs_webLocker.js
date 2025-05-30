@@ -107,7 +107,7 @@ async function setupListButton() {
 
 async function renderList() {
   const list = document.querySelector('#url-list');
-  console.log("clear list")
+  message.innerHTML = '';
   list.innerHTML = '';
   list.classList.remove('display-hide');
 
@@ -129,12 +129,34 @@ async function renderList() {
     const url_input = li.querySelector(`#input-url-${index}`)
 
     delete_button.addEventListener('click', async () => {
-      updated_urls = urls.filter(url => url !== url_input.value);
+      updated_urls = urls.filter((_, i) => i !== index);
       console.log("updated_list", updated_urls)
       await browser.storage.local.set({ 'urlsList': updated_urls});
       console.log(`remove ${url_input.value}`)
       renderList();
     })
+
+    edit_button.addEventListener('click', async () => {
+      if (url_input.readOnly) {
+        url_input.removeAttribute('readonly');
+        url_input.focus();
+        edit_button.innerHTML = 'Save';
+      } else {
+        const updated_value = url_input.value;
+
+        if (updated_value === '') {
+          message_div.innerHTML = "URL cannot be empty"
+          url_input.focus();
+          return;
+        }
+
+        url_input.setAttribute('readonly', true);
+        edit_button.innerHTML = 'Edit';
+        urls[index] = updated_value;
+        await browser.storage.local.set({ urlsList: urls });
+        renderList();
+      }
+    });
   })
 }
 
