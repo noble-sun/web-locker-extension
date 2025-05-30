@@ -65,7 +65,10 @@ async function appendToURLList(value) {
     await browser.storage.local.set({ 'urlsList': currentList});
   } else {
     console.log("already on list")
+    return false;
   }
+
+  return true;
 }
 
 async function getList() {
@@ -92,10 +95,24 @@ add_url_button.addEventListener('click', () => {
 
 save_to_list = document.querySelector('#save-to-list')
 save_to_list.addEventListener('click', async () => {
-  await appendToURLList(url_input.value);
 
-  add_to_list_wrapper.classList.add('add-to-list')
-  message_div.innerHTML = "URL added to list!"
+  value = url_input.value.trim();
+  console.log("input value:", value)
+  if (!value) {
+    message_div.innerHTML = "URL cannot be empty"
+    url_input.focus();
+    return;
+  }
+
+  result = await appendToURLList(value);
+
+  console.log(result)
+  if (result) {
+    add_to_list_wrapper.classList.add('add-to-list')
+    message_div.innerHTML = "URL added to list!"
+  } else {
+    message_div.innerHTML = "Could not add URL"
+  }
 });
 
 async function setupListButton() {
@@ -142,7 +159,7 @@ async function renderList() {
         url_input.focus();
         edit_button.innerHTML = 'Save';
       } else {
-        const updated_value = url_input.value;
+        const updated_value = url_input.value.trim();
 
         if (updated_value === '') {
           message_div.innerHTML = "URL cannot be empty"
