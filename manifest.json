@@ -14,7 +14,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.mozilla.org/*"],
+      "matches": ["<all_urls>"],
       "js": ["content_scripts/webLocker.js"],
       "css": ["content_scripts/webLocker.css"],
       "run_at": "document_start"
