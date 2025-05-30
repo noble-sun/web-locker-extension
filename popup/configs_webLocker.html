@@ -7,12 +7,29 @@
 
   <body>
     <div id="popup-content">
-      <button id="password"></button>
-      <input id="current-password" type="hidden" placeholder="Enter current password"/>
-      <div id="new-password-wrapper">
-        <input id="password-input" type="password" placeholder="Enter password" />
-        <input id="password-input-confirmation" type="password" placeholder="Enter password again" />
-        <button id="submit-password">Confirm</button>
+      <div id="password-wrapper">
+        <button id="password"></button>
+        <input id="current-password" type="hidden" placeholder="Enter current password"/>
+        <div id="new-password-wrapper">
+          <input id="password-input" type="password" placeholder="Enter password" />
+          <input id="password-input-confirmation" type="password" placeholder="Enter password again" />
+          <button id="submit-password">Confirm</button>
+        </div>
+      </div>
+
+      <div>
+        <button id="add-url">Add URL</button>
+        <div id="add-to-list-wrapper" class="add-to-list">
+          <button id="capture-url-button">Copy current origin</button>
+          <input id="url" type="text" placeholder="https://example.com/path" />
+          <button id="save-to-list">Add To List</button>
+        </div>
+      </div>
+
+      <div>
+        <button id="url-list-button">List of URLs</button>
+        <ul id="url-list" class="list display-hide">
+        </ul>
       </div>
       <div id="message"></div>
     </div>

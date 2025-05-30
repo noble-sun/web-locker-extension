@@ -6,7 +6,7 @@
   "icons": {
     "48": "icons/network-lock-48.png"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "browser_action": {
     "default_icon": "icons/network-lock-32.png",
     "default_title": "WebLocker",

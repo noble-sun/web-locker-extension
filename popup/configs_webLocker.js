@@ -3,6 +3,7 @@ confirm_button = document.querySelector('#submit-password')
 new_password_wrapper = document.querySelector("#new-password-wrapper")
 current_password_input = document.querySelector('#current-password')
 
+//browser.storage.local.clear();
 // Change button name if password is already set or not
 let passwordExist = false
 function setPasswordButtonName() {
@@ -26,11 +27,11 @@ password_button.addEventListener('click', (e) => {
   new_password_wrapper.style.display = 'block';
 })
 
+message_div = document.querySelector('#message')
 // Save or update password
 confirm_button.addEventListener('click', () => {
   input = document.querySelector('#password-input')
   confirmation_input = document.querySelector('#password-input-confirmation')
-  message_div = document.querySelector('#message')
 
 
   browser.storage.local.get("password").then((result) => {
@@ -52,7 +53,89 @@ confirm_button.addEventListener('click', () => {
       message_div.innerHTML = "Password and confirmation are not the same";
     }
   }) 
-
 });
 
+async function appendToURLList(value) {
+  const result = await browser.storage.local.get("urlsList");
+  const currentList = result["urlsList"] || [];
 
+  if (!currentList.includes(value)) {
+    currentList.push(value);
+    console.log('currentArray', currentList)
+    await browser.storage.local.set({ 'urlsList': currentList});
+  } else {
+    console.log("already on list")
+  }
+}
+
+async function getList() {
+  const result = await browser.storage.local.get("urlsList");
+
+  return result["urlsList"];
+}
+
+url_input = document.querySelector('#url')
+
+capture_url_button = document.querySelector('#capture-url-button')
+capture_url_button.addEventListener('click', async () => {
+  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+  const url = new URL(tabs[0].url);
+  const root = `${url.protocol}//${url.host}`;
+
+  url_input.value = root
+});
+add_to_list_wrapper = document.querySelector('#add-to-list-wrapper')
+add_url_button = document.querySelector('#add-url')
+add_url_button.addEventListener('click', () => {
+  add_to_list_wrapper.classList.remove('add-to-list')
+});
+
+save_to_list = document.querySelector('#save-to-list')
+save_to_list.addEventListener('click', async () => {
+  await appendToURLList(url_input.value);
+
+  add_to_list_wrapper.classList.add('add-to-list')
+  message_div.innerHTML = "URL added to list!"
+});
+
+async function setupListButton() {
+  url_list_button = document.querySelector('#url-list-button');
+  url_list_button.addEventListener('click', async () => {
+    renderList();
+  })
+}
+
+async function renderList() {
+  const list = document.querySelector('#url-list');
+  console.log("clear list")
+  list.innerHTML = '';
+  list.classList.remove('display-hide');
+
+  const urls = await getList();
+
+  urls.forEach((url, index) => {
+    li = document.createElement('li')
+    li.innerHTML= `
+          <input id="input-url-${index}" type="text"value="${url}" readonly />
+          <div class="list-item-button-wrapper">
+            <button id="edit-url-${index}">Edit</button>
+            <button id="delete-url-${index}">Delete</button>
+          </div>
+        `
+    list.appendChild(li)
+
+    const edit_button = li.querySelector(`#edit-url-${index}`)
+    const delete_button = li.querySelector(`#delete-url-${index}`)
+    const url_input = li.querySelector(`#input-url-${index}`)
+
+    delete_button.addEventListener('click', async () => {
+      updated_urls = urls.filter(url => url !== url_input.value);
+      console.log("updated_list", updated_urls)
+      await browser.storage.local.set({ 'urlsList': updated_urls});
+      console.log(`remove ${url_input.value}`)
+      renderList();
+    })
+  })
+}
+
+setupListButton();
