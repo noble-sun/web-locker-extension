@@ -1,9 +1,20 @@
-(() => {
+(async () => {
+  /*
+   * If url is open in one of the tabs and storage.session is authenticated,
+   * does not require authentication
+   */
+  const url = new URL(document.URL);
+  const root = `${url.protocol}//${url.host}`;
+
+  const isAuthenticated = await browser.runtime.sendMessage({
+    type: "check-auth", root: root
+  });
+
+  if (isAuthenticated) return;
+
   browser.storage.local.get("urlsList").then((result) => {
     //If url is not on the list, early exit the script so it doesn't lock the page
     const urls = result["urlsList"];
-    const url = new URL(document.URL);
-    const root = `${url.protocol}//${url.host}`;
     if (!urls.includes(root)) return;
 
     /*
@@ -21,9 +32,11 @@
     }
     `;
 
-    document.documentElement.appendChild(style);
 
+    document.documentElement.appendChild(style);
+    console.log("append style tag hiding content");
     function injectModal() {
+      console.log("inside injectModal function")
       // When this function is called, DOM finished loading, so we can remove this
       style.remove();
 
@@ -60,8 +73,9 @@
       })
 
       // Check password on button click and replace the body tags again if correct
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
         if (input.value === password) {
+          await browser.runtime.sendMessage({ type: "add-auth", root });
           document.documentElement.replaceChild(mainBody, tempBody);
           mainBody.classList.remove('weblocker-extension-display-none');
         } else {

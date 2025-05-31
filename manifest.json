@@ -19,5 +19,10 @@
       "css": ["content_scripts/webLocker.css"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["background/background.js"],
+    "persistent": false,
+    "type": "module"
+  }
 }
