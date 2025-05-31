@@ -6,17 +6,26 @@
   </head>
 
   <body>
-    <div id="popup-content">
-      <div id="password-wrapper">
-        <button id="password"></button>
-        <input id="current-password" type="hidden" placeholder="Enter current password"/>
-        <div id="new-password-wrapper">
-          <input id="password-input" type="password" placeholder="Enter password" />
-          <input id="password-input-confirmation" type="password" placeholder="Enter password again" />
-          <button id="submit-password">Confirm</button>
-        </div>
+    <div id="password-wrapper">
+      <button id="password"></button>
+      <input id="current-password" type="hidden" placeholder="Enter current password"/>
+      <div id="new-password-wrapper">
+        <input id="password-input" type="password" placeholder="Enter password" />
+        <input id="password-input-confirmation" type="password" placeholder="Enter password again" />
+        <button id="submit-password">Confirm</button>
       </div>
+    </div>
 
+    <div id="popup-authentication">
+      <p> Enter Passoword:</p>
+      <input type="password" id="popup-authentication-password" />
+      <button id="popup-authentication-button">Login</button>
+      <p id="popup-authentication-message" class="display-hide" style="color: red;">
+        Incorrect Password
+      </p>
+    </div>
+
+    <div id="popup-content" class="display-hide">
       <div>
         <button id="add-url">Add URL</button>
         <div id="add-to-list-wrapper" class="add-to-list">
@@ -31,8 +40,8 @@
         <ul id="url-list" class="list display-hide">
         </ul>
       </div>
-      <div id="message"></div>
     </div>
+    <div id="message"></div>
     <script src="configs_webLocker.js"></script>
   </body>
 </html>

@@ -177,4 +177,27 @@ async function renderList() {
   })
 }
 
+let is_authenticated = false
+document.addEventListener('DOMContentLoaded', async () => {
+  const authentication_popup = document.getElementById('popup-authentication');
+  const popup_content = document.getElementById('popup-content');
+  const authentication_popup_button = document.getElementById('popup-authentication-button');
+  const authentication_popup_input = document.getElementById('popup-authentication-password');
+  const authentication_popup_message = document.getElementById('popup-authentication-message');
+
+  authentication_popup_button.addEventListener('click', async () => {
+    const local_storage = await browser.storage.local.get("password");
+    const password = local_storage.password;
+    auth_input_value = authentication_popup_input.value.trim();
+
+    if (auth_input_value == password) {
+      is_authenticated = true;
+      authentication_popup.classList.add('display-hide');
+      popup_content.classList.remove('display-hide');
+    } else {
+      authentication_popup_message.classList.remove('display-hide');
+    }
+  });
+});
+
 setupListButton();
