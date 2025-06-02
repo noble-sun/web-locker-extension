@@ -145,52 +145,58 @@ async function renderList() {
 
   const urls = await getList();
 
-  urls.forEach((url, index) => {
-    li = document.createElement('li')
-    li.innerHTML= `
-          <input id="input-url-${index}" type="text"value="${url}" readonly />
-          <div class="list-item-button-wrapper">
-            <button id="edit-url-${index}">Edit</button>
-            <button id="delete-url-${index}">Delete</button>
-          </div>
-        `
-    list.appendChild(li)
+  if (urls.length === 0) {
+    list.innerHTML = "No URLs saved";
+    list.style.textAlign = "center";
+    list.style.padding = "10px 0";
+  } else {
+    urls.forEach((url, index) => {
+      li = document.createElement('li')
+      li.innerHTML= `
+            <input id="input-url-${index}" type="text"value="${url}" readonly />
+            <div class="list-item-button-wrapper">
+              <button id="edit-url-${index}">Edit</button>
+              <button id="delete-url-${index}">Delete</button>
+            </div>
+          `
+      list.appendChild(li)
 
-    const edit_button = li.querySelector(`#edit-url-${index}`)
-    const delete_button = li.querySelector(`#delete-url-${index}`)
-    const url_input = li.querySelector(`#input-url-${index}`)
+      const edit_button = li.querySelector(`#edit-url-${index}`)
+      const delete_button = li.querySelector(`#delete-url-${index}`)
+      const url_input = li.querySelector(`#input-url-${index}`)
 
-    delete_button.addEventListener('click', async () => {
-      updated_urls = urls.filter((_, i) => i !== index);
-      console.log("updated_list", updated_urls)
-      await browser.storage.local.set({ 'urlsList': updated_urls});
-      console.log(`remove ${url_input.value}`)
-      renderList();
-    })
-
-    edit_button.addEventListener('click', async () => {
-      if (url_input.readOnly) {
-        url_input.removeAttribute('readonly');
-        url_input.focus();
-        edit_button.innerHTML = 'Save';
-      } else {
-        const updated_value = url_input.value.trim();
-
-        if (updated_value === '') {
-          message_div.classList.add('message-error');
-          message_div.innerHTML = "URL cannot be empty"
-          url_input.focus();
-          return;
-        }
-
-        url_input.setAttribute('readonly', true);
-        edit_button.innerHTML = 'Edit';
-        urls[index] = updated_value;
-        await browser.storage.local.set({ urlsList: urls });
+      delete_button.addEventListener('click', async () => {
+        updated_urls = urls.filter((_, i) => i !== index);
+        console.log("updated_list", updated_urls)
+        await browser.storage.local.set({ 'urlsList': updated_urls});
+        console.log(`remove ${url_input.value}`)
         renderList();
-      }
-    });
-  })
+      })
+
+      edit_button.addEventListener('click', async () => {
+        if (url_input.readOnly) {
+          url_input.removeAttribute('readonly');
+          url_input.focus();
+          edit_button.innerHTML = 'Save';
+        } else {
+          const updated_value = url_input.value.trim();
+
+          if (updated_value === '') {
+            message_div.classList.add('message-error');
+            message_div.innerHTML = "URL cannot be empty"
+            url_input.focus();
+            return;
+          }
+
+          url_input.setAttribute('readonly', true);
+          edit_button.innerHTML = 'Edit';
+          urls[index] = updated_value;
+          await browser.storage.local.set({ urlsList: urls });
+          renderList();
+        }
+      });
+    })
+  }
 }
 
 let is_authenticated = false
