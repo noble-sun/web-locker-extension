@@ -99,7 +99,8 @@ capture_url_button.addEventListener('click', async () => {
 add_to_list_wrapper = document.querySelector('#add-to-list-wrapper')
 add_url_button = document.querySelector('#add-url')
 add_url_button.addEventListener('click', () => {
-  add_to_list_wrapper.classList.remove('add-to-list')
+  add_url_button.classList.add('active_button');
+  add_to_list_wrapper.classList.remove('display-hide')
 });
 
 save_to_list = document.querySelector('#save-to-list')
@@ -118,7 +119,8 @@ save_to_list.addEventListener('click', async () => {
 
   console.log(result)
   if (result) {
-    add_to_list_wrapper.classList.add('add-to-list')
+    add_url_button.classList.remove('active_button');
+    add_to_list_wrapper.classList.add('display-hide')
     message_div.classList.add('message-success');
     message_div.innerHTML = "URL added to list!"
   } else {
@@ -130,6 +132,7 @@ save_to_list.addEventListener('click', async () => {
 async function setupListButton() {
   url_list_button = document.querySelector('#url-list-button');
   url_list_button.addEventListener('click', async () => {
+    url_list_button.classList.add('active_button');
     renderList();
   })
 }
@@ -205,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (auth_input_value == password) {
       is_authenticated = true;
       message_div.innerHTML = "";
-      //authentication_popup_input.style.display = 'none';
+      authentication_popup_button.classList.add('display-hide');
       authentication_popup_input.classList.add('display-hide');
       popup_content.classList.remove('display-hide');
     } else {

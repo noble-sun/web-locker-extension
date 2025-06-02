@@ -6,17 +6,19 @@ button {
   border: none;
   width: 100%;
   margin: 3% auto;
-  padding: 4px;
+  padding: 8px;
   text-align: center;
   font-size: 1em;
   cursor: pointer;
+  border-radius: 5px;
+  border: none;
 }
 
 input {
-  margin: 5px;
+  margin: 5px 0;
   width: 95%;
   height: 24px;
-  padding: 4px;
+  padding: 5px;
   border: 1px solid black;
   border-radius: 5px;
 }
@@ -26,7 +28,19 @@ input {
 }
 
 .add-to-list {
-  display: none;
+  gap: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:  #C4C4C4;
+  border: 2px solid black;
+}
+
+.active_button {
+  background-color: #C4C4C4;
+  border: 2px solid black;
 }
 
 .list {
