@@ -5,24 +5,20 @@
     <link rel="stylesheet" href="configs_webLocker.css" />
   </head>
 
-  <body>
+  <body style="display:flex;justify-content:center;flex-direction:column;">
     <div id="password-wrapper">
       <button id="password"></button>
       <input id="current-password" type="hidden" placeholder="Enter current password"/>
       <div id="new-password-wrapper">
         <input id="password-input" type="password" placeholder="Enter password" />
-        <input id="password-input-confirmation" type="password" placeholder="Enter password again" />
+        <input id="password-input-confirmation" type="password" placeholder="Confirm password" />
         <button id="submit-password">Confirm</button>
       </div>
     </div>
 
     <div id="popup-authentication">
-      <p> Enter Passoword:</p>
-      <input type="password" id="popup-authentication-password" />
+      <input type="password" id="popup-authentication-password" placeholder="Inform password to login" />
       <button id="popup-authentication-button">Login</button>
-      <p id="popup-authentication-message" class="display-hide" style="color: red;">
-        Incorrect Password
-      </p>
     </div>
 
     <div id="popup-content" class="display-hide">
@@ -41,7 +37,7 @@
         </ul>
       </div>
     </div>
-    <div id="message"></div>
+    <div id="message" style="display:flex;justify-content:center"></div>
     <script src="configs_webLocker.js"></script>
   </body>
 </html>

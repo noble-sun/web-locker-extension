@@ -10,6 +10,7 @@ function setPasswordButtonName() {
   browser.storage.local.get("password").then((result) => {
     if (result.password === undefined) {
       password_button.innerHTML = "Set Password"
+      document.querySelector('#popup-authentication').classList.add('display-hide');
     } else {
       passwordExist = true
       password_button.innerHTML = "Change Password"
@@ -20,6 +21,9 @@ function setPasswordButtonName() {
 // Set or update password
 setPasswordButtonName();
 password_button.addEventListener('click', (e) => { 
+  popup_authentication_div = document.querySelector('#popup-authentication');
+
+  popup_authentication_div.classList.add('display-hide');
   // Show current password input if password is set
   if (passwordExist === true) {
     current_password_input.type = "password";
@@ -33,9 +37,9 @@ confirm_button.addEventListener('click', () => {
   input = document.querySelector('#password-input')
   confirmation_input = document.querySelector('#password-input-confirmation')
 
-
   browser.storage.local.get("password").then((result) => {
     if (current_password_input.type === 'password' && current_password_input.value !== result.password) {
+      message_div.classList.add('message-error');
       message_div.innerHTML = "Wrong current password!!!"
       return;
     }
@@ -46,10 +50,15 @@ confirm_button.addEventListener('click', () => {
       browser.storage.local.set(password)
 
       setPasswordButtonName();
+      popup_authentication_div = document.querySelector('#popup-authentication');
+      popup_authentication_div.classList.remove('display-hide');
+
+      message_div.classList.add('message-success');
       message_div.innerHTML = "Password set successfully!";
       new_password_wrapper.style.display = 'none';
       current_password_input.type = 'hidden';
     } else {
+      message_div.classList.add('message-error');
       message_div.innerHTML = "Password and confirmation are not the same";
     }
   }) 
@@ -99,6 +108,7 @@ save_to_list.addEventListener('click', async () => {
   value = url_input.value.trim();
   console.log("input value:", value)
   if (!value) {
+    message_div.classList.add('message-error');
     message_div.innerHTML = "URL cannot be empty"
     url_input.focus();
     return;
@@ -109,8 +119,10 @@ save_to_list.addEventListener('click', async () => {
   console.log(result)
   if (result) {
     add_to_list_wrapper.classList.add('add-to-list')
+    message_div.classList.add('message-success');
     message_div.innerHTML = "URL added to list!"
   } else {
+    message_div.classList.add('message-error');
     message_div.innerHTML = "Could not add URL"
   }
 });
@@ -162,6 +174,7 @@ async function renderList() {
         const updated_value = url_input.value.trim();
 
         if (updated_value === '') {
+          message_div.classList.add('message-error');
           message_div.innerHTML = "URL cannot be empty"
           url_input.focus();
           return;
@@ -183,7 +196,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const popup_content = document.getElementById('popup-content');
   const authentication_popup_button = document.getElementById('popup-authentication-button');
   const authentication_popup_input = document.getElementById('popup-authentication-password');
-  const authentication_popup_message = document.getElementById('popup-authentication-message');
 
   authentication_popup_button.addEventListener('click', async () => {
     const local_storage = await browser.storage.local.get("password");
@@ -192,10 +204,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (auth_input_value == password) {
       is_authenticated = true;
-      authentication_popup.classList.add('display-hide');
+      message_div.innerHTML = "";
+      //authentication_popup_input.style.display = 'none';
+      authentication_popup_input.classList.add('display-hide');
       popup_content.classList.remove('display-hide');
     } else {
-      authentication_popup_message.classList.remove('display-hide');
+      message_div.classList.add('message-error');
+      message_div.innerHTML = "Incorrect Password!";
     }
   });
 });
