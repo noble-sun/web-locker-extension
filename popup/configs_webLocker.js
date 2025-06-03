@@ -117,8 +117,13 @@ capture_url_button.addEventListener('click', async () => {
 add_to_list_wrapper = document.querySelector('#add-to-list-wrapper')
 add_url_button = document.querySelector('#add-url')
 add_url_button.addEventListener('click', () => {
-  add_url_button.classList.add('active_button');
-  add_to_list_wrapper.classList.remove('display-hide')
+  if (add_url_button.classList.contains('active_button')) {
+    add_url_button.classList.remove('active_button');
+    add_to_list_wrapper.classList.add('display-hide');
+  } else {
+    add_url_button.classList.add('active_button');
+    add_to_list_wrapper.classList.remove('display-hide')
+  }
 });
 
 save_to_list = document.querySelector('#save-to-list')
@@ -150,8 +155,16 @@ save_to_list.addEventListener('click', async () => {
 async function setupListButton() {
   url_list_button = document.querySelector('#url-list-button');
   url_list_button.addEventListener('click', async () => {
-    url_list_button.classList.add('active_button');
-    renderList();
+    if (url_list_button.classList.contains('active_button')) {
+      url_list_button.classList.remove('active_button');
+
+      const list = document.querySelector('#url-list');
+      message.innerHTML = '';
+      list.classList.add('display-hide');
+    } else {
+      url_list_button.classList.add('active_button');
+      renderList();
+    }
   })
 }
 
