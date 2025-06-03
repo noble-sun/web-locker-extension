@@ -22,13 +22,31 @@ function setPasswordButtonName() {
 setPasswordButtonName();
 password_button.addEventListener('click', (e) => { 
   popup_authentication_div = document.querySelector('#popup-authentication');
-
   popup_authentication_div.classList.add('display-hide');
+
+  popup_content = document.querySelector('#popup-content');
+  popup_content.classList.add('display-hide');
+  new_password_wrapper.classList.remove('display-hide');
   // Show current password input if password is set
   if (passwordExist === true) {
-    current_password_input.type = "password";
+    current_password_input.classList.remove('display-hide');
   }
-  new_password_wrapper.style.display = 'block';
+})
+
+const return_button = document.getElementById('return');
+return_button.addEventListener('click', () => {
+  new_password_wrapper.classList.add('display-hide');
+  current_password_input.classList.add('display-hide');
+  popup_authentication_div = document.querySelector('#popup-authentication');
+  popup_authentication_div.classList.remove('display-hide');
+
+  if (is_authenticated) {
+    popup_content = document.querySelector('#popup-content');
+    popup_content.classList.remove('display-hide');
+  }
+
+  message_div = document.querySelector('#message')
+  message_div.innerHTML = "";
 })
 
 message_div = document.querySelector('#message')
@@ -55,7 +73,7 @@ confirm_button.addEventListener('click', () => {
 
       message_div.classList.add('message-success');
       message_div.innerHTML = "Password set successfully!";
-      new_password_wrapper.style.display = 'none';
+      new_password_wrapper.classList.add('display-hide');
       current_password_input.type = 'hidden';
     } else {
       message_div.classList.add('message-error');

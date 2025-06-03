@@ -28,10 +28,6 @@ input[readonly] {
   background-color: #DBDBDB;
 }
 
-#new-password-wrapper {
-  display: none;
-}
-
 .add-to-list {
   gap: 5px;
   padding: 10px;

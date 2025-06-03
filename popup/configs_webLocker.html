@@ -8,11 +8,12 @@
   <body style="display:flex;justify-content:center;flex-direction:column;">
     <div id="password-wrapper">
       <button id="password"></button>
-      <input id="current-password" type="hidden" placeholder="Enter current password"/>
-      <div id="new-password-wrapper">
+      <input id="current-password" type="password" class="display-hide" placeholder="Enter current password"/>
+      <div id="new-password-wrapper" class="display-hide">
         <input id="password-input" type="password" placeholder="Enter new password" />
         <input id="password-input-confirmation" type="password" placeholder="Confirm new password" />
         <button id="submit-password">Confirm</button>
+        <button id="return">Cancel</button>
       </div>
     </div>
 
