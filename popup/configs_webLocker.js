@@ -21,20 +21,39 @@ function setPasswordButtonName() {
 // Set or update password
 setPasswordButtonName();
 password_button.addEventListener('click', (e) => { 
-  popup_authentication_div = document.querySelector('#popup-authentication');
-  popup_authentication_div.classList.add('display-hide');
+  if (password_button.classList.contains('active_button')) {
+    password_button.classList.remove('active_button')
+    new_password_wrapper.classList.add('display-hide');
+    current_password_input.classList.add('display-hide');
 
-  popup_content = document.querySelector('#popup-content');
-  popup_content.classList.add('display-hide');
-  new_password_wrapper.classList.remove('display-hide');
-  // Show current password input if password is set
-  if (passwordExist === true) {
-    current_password_input.classList.remove('display-hide');
+    popup_authentication_div = document.querySelector('#popup-authentication');
+    popup_authentication_div.classList.remove('display-hide');
+
+    if (is_authenticated) {
+      popup_content = document.querySelector('#popup-content');
+      popup_content.classList.remove('display-hide');
+    }
+
+    message_div = document.querySelector('#message')
+    message_div.innerHTML = "";
+  } else {
+    password_button.classList.add('active_button');
+    popup_authentication_div = document.querySelector('#popup-authentication');
+    popup_authentication_div.classList.add('display-hide');
+
+    popup_content = document.querySelector('#popup-content');
+    popup_content.classList.add('display-hide');
+    new_password_wrapper.classList.remove('display-hide');
+    // Show current password input if password is set
+    if (passwordExist === true) {
+      current_password_input.classList.remove('display-hide');
+    }
   }
 })
 
 const return_button = document.getElementById('return');
 return_button.addEventListener('click', () => {
+  password_button.classList.remove('active_button');
   new_password_wrapper.classList.add('display-hide');
   current_password_input.classList.add('display-hide');
   popup_authentication_div = document.querySelector('#popup-authentication');
