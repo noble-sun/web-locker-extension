@@ -8,7 +8,6 @@ browser.runtime.onMessage.addListener((message, sender) => {
       authenticatedUrls.add(message.root);
       return Promise.resolve(true);
     default:
-      console.log(`no-action-for-message: ${message.type}`);
   }
 })
 

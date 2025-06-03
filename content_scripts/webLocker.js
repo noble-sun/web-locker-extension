@@ -34,9 +34,7 @@
 
 
     document.documentElement.appendChild(style);
-    console.log("append style tag hiding content");
     function injectModal() {
-      console.log("inside injectModal function")
       // When this function is called, DOM finished loading, so we can remove this
       style.remove();
 

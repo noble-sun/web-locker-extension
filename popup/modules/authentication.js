@@ -23,16 +23,13 @@ export function setupPassword() {
   }
 
   configPasswordBtn.addEventListener("click", async () => {
-    const active = configPasswordBtn.classList.contains("active_button");
-    if (active) {
+    const btnActive = configPasswordBtn.classList.contains("active_button");
+    if (btnActive) {
       hideElement(newPasswordWrapper);
 
       if (hasPassword) showElement(authWrapper);
-      console.log("isAuthenticated: ", isAuthenticated)
       if (isAuthenticated) {
-        console.log("show popupContent");
         showElement(popupContent);
-        console.log("hide authWrapper");
         hideElement(authWrapper);
       }
     } else {
