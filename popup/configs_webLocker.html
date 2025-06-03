@@ -7,11 +7,11 @@
 
   <body style="display:flex;justify-content:center;flex-direction:column;">
     <div id="password-wrapper">
-      <button id="password"></button>
-      <input id="current-password" type="password" class="display-hide" placeholder="Enter current password"/>
+      <button id="config-password"></button>
       <div id="new-password-wrapper" class="display-hide">
-        <input id="password-input" type="password" placeholder="Enter new password" />
-        <input id="password-input-confirmation" type="password" placeholder="Confirm new password" />
+        <input id="current-password" type="password" placeholder="Enter current password"/>
+        <input id="new-password-input" type="password" placeholder="Enter new password" />
+        <input id="new-password-input-confirmation" type="password" placeholder="Confirm new password" />
         <button id="submit-password">Confirm</button>
         <button id="return">Cancel</button>
       </div>
@@ -39,6 +39,6 @@
       </div>
     </div>
     <div id="message" style="display:flex;justify-content:center"></div>
-    <script src="configs_webLocker.js"></script>
+    <script type="module" src="configs_webLocker.js"></script>
   </body>
 </html>
